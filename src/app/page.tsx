@@ -1,5 +1,10 @@
 import Image from 'next/image';
+import UI from './ui';
 
 export default function Home() {
-  return <div>home</div>;
+  return (
+    <div>
+      <UI />
+    </div>
+  );
 }

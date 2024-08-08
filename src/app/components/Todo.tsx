@@ -2,6 +2,7 @@
 
 import { Checkbox, IconButton, Spinner } from '@material-tailwind/react';
 import { useMutation } from '@tanstack/react-query';
+
 import { queryClient } from 'config/ReactQueryClientProvider';
 import { useState } from 'react';
 import { deleteTodo, updateTodo } from 'src/actions/todoActions';
@@ -11,8 +12,13 @@ export default function Todo({ todo }) {
   const [completed, setCompleted] = useState(todo.completed);
   const [title, setTitle] = useState(todo.title);
 
-  const updateTodoMutataion = useMutation({
-    mutationFn: () => updateTodo({ id: todo.id, title, completed }),
+  const updateTodoMutation = useMutation({
+    mutationFn: () =>
+      updateTodo({
+        id: todo.id,
+        title,
+        completed,
+      }),
     onSuccess: () => {
       setIsEditing(false);
       queryClient.invalidateQueries({
@@ -21,7 +27,7 @@ export default function Todo({ todo }) {
     },
   });
 
-  const deleteTodoMuatation = useMutation({
+  const deleteTodoMutation = useMutation({
     mutationFn: () => deleteTodo(todo.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -36,7 +42,7 @@ export default function Todo({ todo }) {
         checked={completed}
         onChange={async (e) => {
           await setCompleted(e.target.checked);
-          await updateTodoMutataion.mutate();
+          await updateTodoMutation.mutate();
         }}
       />
 
@@ -53,10 +59,10 @@ export default function Todo({ todo }) {
       {isEditing ? (
         <IconButton
           onClick={async () => {
-            await updateTodoMutataion.mutate();
+            await updateTodoMutation.mutate();
           }}
         >
-          {updateTodoMutataion.isPending ? (
+          {updateTodoMutation.isPending ? (
             <Spinner />
           ) : (
             <i className="fas fa-check" />
@@ -67,8 +73,8 @@ export default function Todo({ todo }) {
           <i className="fas fa-pen" />
         </IconButton>
       )}
-      <IconButton onClick={() => deleteTodoMuatation.mutate()}>
-        {deleteTodoMuatation.isPending ? (
+      <IconButton onClick={() => deleteTodoMutation.mutate()}>
+        {deleteTodoMutation.isPending ? (
           <Spinner />
         ) : (
           <i className="fas fa-trash" />

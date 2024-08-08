@@ -1,10 +1,11 @@
 'use client';
 
 import { Button, Input } from '@material-tailwind/react';
-import Todo from './components/Todo';
-import { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
+
+import { useState } from 'react';
 import { createTodo, getTodos } from 'src/actions/todoActions';
+import Todo from './components/Todo';
 
 export default function UI() {
   const [searchInput, setSearchInput] = useState('');
@@ -17,7 +18,7 @@ export default function UI() {
   const createTodoMutation = useMutation({
     mutationFn: () =>
       createTodo({
-        title: 'New todo',
+        title: 'New Todo',
         completed: false,
       }),
 
@@ -25,6 +26,7 @@ export default function UI() {
       todosQuery.refetch();
     },
   });
+
   return (
     <div className="w-2/3 mx-auto flex flex-col items-center py-10 gap-2">
       <h1 className="text-xl">TODO LIST</h1>

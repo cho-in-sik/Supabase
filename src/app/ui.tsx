@@ -52,3 +52,4 @@ export default function UI() {
     </div>
   );
 }
+//넷플릭스 클론 폴더 생성.
